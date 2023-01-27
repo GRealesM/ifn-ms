@@ -4,5 +4,7 @@
 *.csv
 *.gz
 *.freq
+*.afreq
+*.bim
 *.log
 *.txt
