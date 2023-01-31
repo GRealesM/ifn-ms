@@ -1,4 +1,4 @@
-# Processing Summary data - Step 1
+# Processing Summary data - Version 1
  
 # Here we'll 
 # 1 - Import the raw GWAS summary stats 
@@ -40,9 +40,11 @@ sapply(fn, function(i){
     f1 <- merge(f1, alf, by.x=c("CHR", "BP", "V6", "A1"), by.y=c("CHR", "BP", "REF", "ALT"))
     f1[, SE:= BETA/STAT] # Assuming STAT is the Z-score...
     f1 <- f1[!is.na(BETA)] # Remove missing SNPs
-    setnames(f1, c("CHR", "BP", "SNP", "A1", "V6"), c("CHR19", "BP19","SNPID", "ALT", "REF"))
-    f1 <- f1[, .(CHR19, BP19, SNPID, REF, ALT, ALT_FREQ, BETA, SE, P)]
+    setnames(f1, c("CHR", "BP", "SNP", "A1", "V6", "NMISS"), c("CHR19", "BP19","SNPID", "ALT", "REF", "N"))
+    f1 <- f1[, .(CHR19, BP19, SNPID, REF, ALT, ALT_FREQ, N, BETA, SE, P)]
     setorder(f1, CHR19, BP19)
+    # Now ensure sdY = 1, to make 
+    f1[,orig.BETA:=BETA][,orig.SE:=SE][,c("BETA", "SE"):=sdY.correction(beta = BETA, se = SE, maf = ALT_FREQ, n = N)]
     nfn  <- gsub(".gz", "-plr.gz", i)
     fwrite(f1, paste0(op, nfn), sep="\t")
     message("File ", nfn, " ready!")
