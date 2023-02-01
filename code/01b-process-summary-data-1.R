@@ -1,4 +1,7 @@
 # Processing Summary data - Version 1
+
+## Guillermo Reales
+## 2023-01-30
  
 # Here we'll 
 # 1 - Import the raw GWAS summary stats 
@@ -43,8 +46,7 @@ sapply(fn, function(i){
     setnames(f1, c("CHR", "BP", "SNP", "A1", "V6", "NMISS"), c("CHR19", "BP19","SNPID", "ALT", "REF", "N"))
     f1 <- f1[, .(CHR19, BP19, SNPID, REF, ALT, ALT_FREQ, N, BETA, SE, P)]
     setorder(f1, CHR19, BP19)
-    # Now ensure sdY = 1, to make 
-    f1[,orig.BETA:=BETA][,orig.SE:=SE][,c("BETA", "SE"):=sdY.correction(beta = BETA, se = SE, maf = ALT_FREQ, n = N)]
+    
     nfn  <- gsub(".gz", "-plr.gz", i)
     fwrite(f1, paste0(op, nfn), sep="\t")
     message("File ", nfn, " ready!")

@@ -1,3 +1,8 @@
+#!/bin/bash
+## Processing summary data
+## Guillermo Reales
+## 2023-01-30
+
 ## Here we'll get the summary data from the files we're interested in and process them for use with RápidoPGS
 
 mkdir ../data/raw-summary
@@ -43,3 +48,4 @@ rm "$hdir"temp* "$hdir"tmpsnps.txt
 
 # Then we can run the R script to process the files.
 Rscript 01b-process-summary-data-1.R
+Rscript 01c-qc-summary-data-1.R
