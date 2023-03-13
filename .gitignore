@@ -11,3 +11,7 @@
 *.RDS
 *.rds
 *.err
+*.bim
+*.fam
+*.bed
+*.sample
